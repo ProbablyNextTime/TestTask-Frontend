@@ -3,7 +3,7 @@ import axios from "axios"
 import { Formik, Form, Field } from 'formik';
 import { useHistory } from "react-router-dom"
 import * as Yup from 'yup';
-import {ICredentials} from "../../Interfaces/user";
+import {ICredentials} from "Interfaces/user";
 
 
 // Validation schema for signUp

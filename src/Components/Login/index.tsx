@@ -3,8 +3,8 @@ import axios, {AxiosResponse} from "axios"
 import { Formik, Form, Field } from 'formik';
 import { useHistory } from "react-router-dom"
 import * as Yup from 'yup';
-import { IUser } from "../../Interfaces/user"
-import { ICredentials } from "../../Interfaces/user";
+import { IUser } from "Interfaces/user"
+import { ICredentials } from "Interfaces/user";
 
 // Validation schema for login form
 const SignupSchema = Yup.object().shape({
