@@ -30,8 +30,10 @@ const Login = () => {
         }
       });
       const user: IUser = response.data.user;
+      // Setting accessToken to localStorage
+      localStorage.setItem("accessToken", response.data.accessToken);
       // Getting user role and redirecting to content pages based on role
-      const redirectURL: string = user.role === "admin" ? "/createPoll" : "/polls";
+      const redirectURL: string = user.role === "admin" ? "/createSurvey" : "/surveys";
       history.push(redirectURL);
 
     } catch (error) {

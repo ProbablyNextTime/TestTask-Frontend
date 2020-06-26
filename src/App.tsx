@@ -8,6 +8,7 @@ import {
 import Login from "Components/Login";
 import SignUp from "Components/SignUp";
 import CreateSurvey from "Components/CreateSusrvey";
+import SurveysBoard from "Components/SurveysBoard";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signUp" component={SignUp} />
           <Route exact path="/createSurvey" component={CreateSurvey} />
+          <Route exact path="/surveys" component={SurveysBoard} />
         </Switch>
     </Router>
   );
