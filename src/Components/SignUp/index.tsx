@@ -1,12 +1,12 @@
 import React from "react";
-import axios, {AxiosResponse} from "axios"
+import axios from "axios"
 import { Formik, Form, Field } from 'formik';
 import { useHistory } from "react-router-dom"
 import * as Yup from 'yup';
-import { IUser } from "../../Interfaces/user"
-import { ICredentials } from "../../Interfaces/user";
+import {ICredentials} from "../../Interfaces/user";
 
-// Validation schema for login form
+
+// Validation schema for signUp
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
     .min(2, 'Too Short!')
@@ -15,31 +15,32 @@ const SignupSchema = Yup.object().shape({
   password: Yup.string()
     .min(4, 'Too Short!')
     .max(10, 'Too Long!')
+    .required(),
+  confirmPassword: Yup.string()
+    .min(4, 'Too Short!')
+    .max(10, 'Too Long!')
+    .required(),
 });
 
-const Login = () => {
+const SignUp = () => {
   const history = useHistory();
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
 
   const onSubmit =  React.useCallback( async (values: ICredentials) => {
     try {
-      const response: AxiosResponse = await axios.post('/login', {
+      await axios.post("/signUp", {
         user: {
           username: values.username,
           password: values.password
         }
       });
-      const user: IUser = response.data.user;
-      // Getting user role and redirecting to content pages based on role
-      const redirectURL: string = user.role === "admin" ? "/createPoll" : "/polls";
-      history.push(redirectURL);
+      // redirect on success signUp
+      history.push("/login");
 
     } catch (error) {
       // Handling errors based on error message got from response
-      if(error.response.data.message === "Incorrect data"){
-        setErrorMessage("Incorrect login or password")
-      } else if (error.response.data.message === "Jwt setting failed" ){
-        setErrorMessage("Auth error");
+      if(error.response.data.message === "such user exists") {
+        setErrorMessage("Such user exists");
       } else {
         setErrorMessage("Unknown error");
       }
@@ -48,11 +49,12 @@ const Login = () => {
 
   return(
     <div>
-    <h1>SignIn</h1>
+    <h1>Signup</h1>
     <Formik
       initialValues={{
         username: "",
-        password: ""
+        password: "",
+        confirmPassword: "",
       }}
       validationSchema={SignupSchema}
       onSubmit={onSubmit}
@@ -69,11 +71,19 @@ const Login = () => {
             name="password"
             onFocus={() => setErrorMessage("")}
           />
-          <button type="submit">Login</button>
-          <button type="button"
-            onClick={() => history.push("/signUp")}
+          <p>Confirm Password</p>
+          <Field
+            name="confirmPassword"
+            onFocus={() => setErrorMessage("")}
+          />
+          <button
+            type="submit"
           >
-            Sign Up
+            Sign Up</button>
+          <button type="button"
+            onClick={() => history.push("/login")}
+          >
+            Login
           </button>
           {errorMessage !== "" && <p>{errorMessage}</p>}
         </Form>
@@ -83,4 +93,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default SignUp
