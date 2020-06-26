@@ -8,14 +8,17 @@ import useStyles from "./styles";
 import {Box, Typography, Link} from "@material-ui/core";
 
 
-const SurveysBoard = () => {
-  const history = useHistory();
-  const [surveys, setSurveys] = React.useState<ISurvey[]>([]);
 
+const SurveysBoard = () => {
+  const [surveys, setSurveys] = React.useState<ISurvey[]>([]);
+  const history = useHistory();
+
+  // Gets all user`s uncompleted surveys from server
   const getSurveys = React.useCallback( async () => {
     const response : AxiosResponse = await axios.get("/surveys", {headers: authHeader()})
     setSurveys(response.data.surveys);
   },[]);
+
 
   React.useEffect( () => {
     getSurveys();
