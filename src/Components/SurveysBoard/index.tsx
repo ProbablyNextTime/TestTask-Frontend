@@ -12,10 +12,12 @@ const SurveysBoard = () => {
   const history = useHistory();
   const [surveys, setSurveys] = React.useState<ISurvey[]>([]);
 
+  // Gets all user`s uncompleted surveys from server
   const getSurveys = React.useCallback( async () => {
     const response : AxiosResponse = await axios.get("/surveys", {headers: authHeader()})
     setSurveys(response.data.surveys);
   },[]);
+
 
   React.useEffect( () => {
     getSurveys();
