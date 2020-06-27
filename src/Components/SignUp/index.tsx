@@ -4,22 +4,24 @@ import { Formik, Form, Field } from 'formik';
 import { useHistory } from "react-router-dom"
 import * as Yup from 'yup';
 import {ICredentials} from "Interfaces/user";
+import useStyles from "./styles";
+import {Box, Typography, Button} from "@material-ui/core";
+import { TextField } from "formik-material-ui";
 
 
 // Validation schema for signUp
-const SignupSchema = Yup.object().shape({
+const SignUpSchema = Yup.object().shape({
   username: Yup.string()
-    .min(2, 'Too Short!')
-    .max(10, 'Too Long!')
+    .min(2, 'Should be longer than 2 characters')
+    .max(10, 'Should be shorter than 10 characters')
     .required('Required'),
   password: Yup.string()
-    .min(4, 'Too Short!')
-    .max(10, 'Too Long!')
-    .required(),
+    .min(4, 'Should be longer than 4 characters')
+    .max(10, 'Should be shorter than 10 characters')
+    .required('Required'),
   confirmPassword: Yup.string()
-    .min(4, 'Too Short!')
-    .max(10, 'Too Long!')
-    .required(),
+    .oneOf([Yup.ref("password"), undefined], "Passwords should match")
+    .required('Required'),
 });
 
 const SignUp = () => {
@@ -47,49 +49,82 @@ const SignUp = () => {
     }
   }, [history]);
 
+  const classes = useStyles();
+
   return(
-    <div>
-    <h1>Signup</h1>
-    <Formik
-      initialValues={{
-        username: "",
-        password: "",
-        confirmPassword: "",
-      }}
-      validationSchema={SignupSchema}
-      onSubmit={onSubmit}
-    >
-      {() => (
-        <Form>
-          <p>Username</p>
-          <Field
-            name="username"
-            onFocus={() => setErrorMessage("")}
-          />
-          <p>Password</p>
-          <Field
-            name="password"
-            onFocus={() => setErrorMessage("")}
-          />
-          <p>Confirm Password</p>
-          <Field
-            name="confirmPassword"
-            onFocus={() => setErrorMessage("")}
-          />
-          <button
-            type="submit"
-          >
-            Sign Up</button>
-          <button type="button"
-            onClick={() => history.push("/login")}
-          >
-            Login
-          </button>
-          {errorMessage !== "" && <p>{errorMessage}</p>}
-        </Form>
-      )}
-    </Formik>
-  </div>
+    <Box className={classes.wrapper}>
+    <Box className={classes.container}>
+      <Typography className={classes.loginHeader} variant={"h4"}>Sign Up</Typography>
+      <Formik
+        initialValues={{
+          username: "",
+          password: "",
+          confirmPassword: "",
+        }}
+        validationSchema={SignUpSchema}
+        onSubmit={onSubmit}
+      >
+        {() => (
+          <Form>
+            <Box className={classes.fieldWrapper}>
+              <Typography className={classes.inputLabel}>Username :</Typography>
+              <Field
+                InputProps={{
+                  className: classes.inputField
+                }}
+                variant={"outlined"}
+                name="username"
+                onFocus={() => setErrorMessage("")}
+                component={TextField}
+              />
+            </Box>
+            <Box className={classes.fieldWrapper}>
+              <Typography className={classes.inputLabel}>Password :</Typography>
+              <Field
+                InputProps={{
+                  className: classes.inputField
+                }}
+                variant={"outlined"}
+                name="password"
+                onFocus={() => setErrorMessage("")}
+                component={TextField}
+              />
+            </Box>
+            <Box className={classes.fieldWrapper}>
+              <Typography className={classes.inputLabel}>Confirm Password :</Typography>
+              <Field
+                InputProps={{
+                  className: classes.inputField
+                }}
+                variant={"outlined"}
+                name="confirmPassword"
+                onFocus={() => setErrorMessage("")}
+                component={TextField}
+              />
+            </Box>
+            <Box className={classes.formControls}>
+              <Button
+                color={"primary"}
+                type="submit"
+                variant="outlined"
+              >
+                Sign Up
+              </Button>
+              <Button
+                color={"primary"}
+                type="button"
+                variant="outlined"
+                onClick={() => history.push("/login")}
+              >
+                Login
+              </Button>
+            </Box>
+            {errorMessage !== "" && <p>{errorMessage}</p>}
+          </Form>
+        )}
+      </Formik>
+    </Box>
+  </Box>
   )
 }
 
