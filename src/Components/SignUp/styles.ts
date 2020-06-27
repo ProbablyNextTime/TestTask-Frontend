@@ -41,6 +41,10 @@ const useStyles = makeStyles(() => ({
     margin: "15px 0 0 0",
     width: "240px",
     justifyContent: "space-between",
+  },
+  errorMessage: {
+    margin: "2px 0 0 0",
+    color: "red",
   }
 }));
 

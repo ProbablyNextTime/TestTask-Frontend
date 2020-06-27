@@ -22,6 +22,10 @@ const useStyles = makeStyles(() => ({
     fontSize: "20px",
     alignSelf: "start",
     margin: "10px 0 0 0",
+  },
+  errorMessage: {
+    margin: "2px 0 0 0",
+    color: "red",
   }
 }));
 

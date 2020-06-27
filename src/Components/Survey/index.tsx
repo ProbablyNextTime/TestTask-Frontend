@@ -4,6 +4,9 @@ import { useHistory } from "react-router-dom"
 import authHeader from "Utils/authHeader";
 import { ISurvey } from "Interfaces/survey";
 import {Field, Form, Formik} from "formik";
+import useStyles from "./styles";
+import {Box, Typography, Button, LinearProgress} from "@material-ui/core";
+
 
 interface ISurveyProps {
   surveyId: string;
@@ -88,48 +91,75 @@ const Survey = ({surveyId} : ISurveyProps) => {
       await axios.post(`/postSurvey`, {answers: answers, surveyId: surveyId}, {headers: authHeader()});
       history.push("/thankYou");
     } catch (error) {
-      console.log(error.response);
       setErrorMessage(error.response.data.message)
     }
   }, [surveyId, history]);
 
+  const classes = useStyles();
+  console.log(survey ?  ((currentPage - 2) * 3 + currentQuestions.length): 0);
   return(
-    <div>
+    <Box className={classes.wrapper}>
       {survey && <Formik
       initialValues={getInitialValues()}
       onSubmit={submitSurvey}
     >
       {(values) => (
-        <Form>
+        <Form className={classes.container}>
           {currentQuestions.map( (question, key) => {
-            return <> <p>{question}</p> <Field onFocus={() => setErrorMessage("")} name={question} /> </>
+            return <Box className={classes.surveyQuestion}>
+                <Typography>
+                  {question}
+                </Typography>
+                <Field
+                  className={classes.answerField}
+                  variant={"outlined"}
+                  onFocus={() => setErrorMessage("")}
+                  name={question}
+                  component={"textarea"}
+                />
+              </Box>
           })}
-          <button
-            type={"button"}
-            onClick={handlePrev}
-            disabled={ currentPage === 1}
-          >
-            Back
-          </button>
 
-          <button
-            type={"button"}
-            onClick={() => handleNext(values)}
-            disabled={ survey ? Math.ceil(survey.questions.length / 3) === currentPage : false}
-          >
-            Next
-          </button>
-          <button
-            type={"submit"}
-            disabled={ survey ? Math.ceil(survey.questions.length / 3) !== currentPage : false}
-          >
-            Next
-          </button>
-          {errorMessage !== "" && <p>{errorMessage}</p>}
+          <Box className={classes.formControls}>
+            <Button
+              color={"primary"}
+              variant={"outlined"}
+              type={"button"}
+              onClick={handlePrev}
+              disabled={ currentPage === 1}
+            >
+              Back
+            </Button>
+            { survey && Math.ceil(survey.questions.length / 3) === currentPage && <Button
+              color={"primary"}
+              variant={"outlined"}
+              type={"submit"}
+            >
+              Submit
+            </Button>}
+
+            { survey && Math.ceil(survey.questions.length / 3) !== currentPage &&
+              <Button
+              color={"primary"}
+              variant={"outlined"}
+              type={"button"}
+              onClick={() => handleNext(values)}
+            >
+              Next
+            </Button>
+            }
+          </Box>
+          {errorMessage !== "" && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
+          <LinearProgress
+            variant={"determinate"}
+            value={survey ?  ((currentPage - 2) * 3 + currentQuestions.length)/ survey?.questions.length * 100 : 0}
+            className={classes.progress}
+          />
         </Form>
       )}
     </Formik>}
-  </div>
+
+  </Box>
   )
 };
 
