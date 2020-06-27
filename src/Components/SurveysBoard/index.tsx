@@ -11,12 +11,18 @@ import {Box, Typography, Link} from "@material-ui/core";
 
 const SurveysBoard = () => {
   const [surveys, setSurveys] = React.useState<ISurvey[]>([]);
+
   const history = useHistory();
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
 
   // Gets all user`s uncompleted surveys from server
   const getSurveys = React.useCallback( async () => {
-    const response : AxiosResponse = await axios.get("/surveys", {headers: authHeader()})
-    setSurveys(response.data.surveys);
+    try {
+      const response: AxiosResponse = await axios.get("/surveys", {headers: authHeader()})
+      setSurveys(response.data.surveys);
+    } catch (error) {
+      setErrorMessage(error.response.body.message);
+    }
   },[]);
 
 
@@ -41,6 +47,7 @@ const SurveysBoard = () => {
               {`${key + 1}) ${survey.tittle}`}
             </Link>
           })}
+          {errorMessage && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
         </Box>
           : <Typography variant={"h4"}>No surveys are available for you</Typography>}
     </Box>

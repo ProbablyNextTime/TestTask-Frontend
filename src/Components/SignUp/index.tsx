@@ -119,7 +119,7 @@ const SignUp = () => {
                 Login
               </Button>
             </Box>
-            {errorMessage !== "" && <p>{errorMessage}</p>}
+            {errorMessage !== "" && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
           </Form>
         )}
       </Formik>
