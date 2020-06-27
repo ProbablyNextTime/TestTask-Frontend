@@ -88,6 +88,7 @@ const Survey = ({surveyId} : ISurveyProps) => {
       await axios.post(`/postSurvey`, {answers: answers, surveyId: surveyId}, {headers: authHeader()});
       history.push("/thankYou");
     } catch (error) {
+      console.log(error.response);
       setErrorMessage(error.response.data.message)
     }
   }, [surveyId, history]);
