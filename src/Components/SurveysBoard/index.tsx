@@ -1,12 +1,11 @@
 import React from "react";
 import axios, {AxiosResponse} from "axios"
-import { useHistory, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import authHeader from "../../Utils/authHeader";
 import {ISurvey} from "../../Interfaces/survey";
 
 
 const SurveysBoard = () => {
-  const history = useHistory();
   const [surveys, setSurveys] = React.useState<ISurvey[]>([]);
 
   const getSurveys = React.useCallback( async () => {
