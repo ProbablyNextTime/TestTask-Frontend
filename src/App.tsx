@@ -6,6 +6,7 @@ function App() {
   return (
     <CssBaseline>
       <UserContextProvider>
+        <Routes />
       </UserContextProvider>
     </CssBaseline>
   )

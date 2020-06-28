@@ -23,7 +23,7 @@ const SurveysBoard = () => {
       const surveys: ISurvey[] = await getAvailableSurveysAPI()
       setSurveys(surveys)
     } catch (error) {
-      console.error(error);
+      console.error(error)
       setErrorMessage(error.response.body.message)
     }
   }, [])
