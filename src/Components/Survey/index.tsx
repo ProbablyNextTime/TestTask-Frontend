@@ -152,7 +152,7 @@ const Survey = ({surveyId} : ISurveyProps) => {
           {errorMessage !== "" && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
           <LinearProgress
             variant={"determinate"}
-            value={survey ?  ((currentPage - 2) * 3 + currentQuestions.length)/ survey?.questions.length * 100 : 0}
+            value={survey ?  ((currentPage - 1) * 3/ survey?.questions.length * 100) : 0}
             className={classes.progress}
           />
         </Form>

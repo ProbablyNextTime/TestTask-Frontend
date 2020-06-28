@@ -11,7 +11,8 @@ import Login from "Components/Login";
 import SignUp from "Components/SignUp";
 import CreateSurvey from "Components/CreateSusrvey";
 import SurveysBoard from "Components/SurveysBoard";
-import Survey from "./Components/Survey";
+import Survey from "Components/Survey";
+import ThankYou from "Components/ThankYou";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
               path="/survey/:survey_id"
               render={({ match: { params } }) => <Survey surveyId={params.survey_id} />}
             />
+            <Route exact path={"/thankYou"} component={ThankYou} />
           </Switch>
       </Router>
     </CssBaseline>
