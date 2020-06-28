@@ -37,13 +37,14 @@ const CreateSurvey = () => {
         // Redirect on successful creation of survey
         history.push("/surveys")
       } catch (error) {
+        // console.error(error) SO THAT'S EASIER TO DEBUG
         setErrorMessage(error.response.data.message)
       }
     },
     [history]
   )
 
-  const classes = useStyles()
+  const classes = useStyles() // MOVE TO THE TOP OF THE COMPONENT
 
   return (
     <Box className={classes.wrapper}>
