@@ -1,5 +1,4 @@
 import React from "react"
-import axios, { AxiosResponse } from "axios"
 import { Formik, Form, Field } from "formik"
 import { useHistory } from "react-router-dom"
 import * as Yup from "yup"
@@ -8,6 +7,7 @@ import { IUser, ICredentials } from "Interfaces/user"
 import useStyles from "./styles"
 import { Box, Typography, Button } from "@material-ui/core"
 import { TextField } from "formik-material-ui"
+import { loginUserAPI } from "../../service/api/user"
 
 // Validation schema for login form
 const SignInSchema = Yup.object().shape({
@@ -28,15 +28,7 @@ const Login = () => {
   const onSubmit = React.useCallback(
     async (values: ICredentials) => {
       try {
-        const response: AxiosResponse = await axios.post("/login", {
-          user: {
-            username: values.username,
-            password: values.password,
-          },
-        })
-        const user: IUser = response.data.user
-        // Setting accessToken to localStorage
-        localStorage.setItem("accessToken", response.data.accessToken)
+        const user: IUser = await loginUserAPI(values.username, values.password)
         // Getting user role and redirecting to content pages based on role
         const redirectURL: string = user.role === "admin" ? "/createSurvey" : "/surveys"
         history.push(redirectURL)

@@ -1,12 +1,11 @@
 import React from "react"
-import axios from "axios"
 import { useHistory } from "react-router-dom"
-import authHeader from "Utils/authHeader"
 import useStyles from "./styles"
 import { Box, Typography, Button } from "@material-ui/core"
 import { FieldArray, Form, Field, Formik } from "formik"
 import { TextField } from "formik-material-ui"
 import * as Yup from "yup"
+import { postSurveyAPI } from "../../service/api/survey"
 
 const surveySchema = Yup.object().shape({
   questions: Yup.array().of(
@@ -27,13 +26,9 @@ const CreateSurvey = () => {
       }
 
       try {
-        await axios.post(
-          "/createSurvey",
-          { questions: values.questions, title: values.title },
-          { headers: authHeader() }
-        )
+        await postSurveyAPI(values.questions, values.title)
         // Redirect on successful creation of survey
-        history.push("/ss")
+        history.push("/surveys")
       } catch (error) {
         setErrorMessage(error.response.data.message)
       }
