@@ -8,6 +8,7 @@ import useStyles from "./styles"
 import { Box, Typography, Button } from "@material-ui/core"
 import { TextField } from "formik-material-ui"
 import { loginUserAPI } from "../../service/api/user"
+import { UserContext } from "../../UserContext"
 
 // Validation schema for login form
 const SignInSchema = Yup.object().shape({
@@ -24,6 +25,7 @@ const SignInSchema = Yup.object().shape({
 const Login = () => {
   const history = useHistory()
   const [errorMessage, setErrorMessage] = React.useState("")
+  const userContext = React.useContext(UserContext)
 
   const onSubmit = React.useCallback(
     async (values: ICredentials) => {
@@ -31,12 +33,13 @@ const Login = () => {
         const user: IUser = await loginUserAPI(values.username, values.password)
         // Getting user role and redirecting to content pages based on role
         const redirectURL: string = user.role === "admin" ? "/createSurvey" : "/surveys"
+        userContext.handleSettingUser({ user: { username: user.username, role: user.role } })
         history.push(redirectURL)
       } catch (error) {
         setErrorMessage(error.response.data.message)
       }
     },
-    [history]
+    [history, userContext]
   )
 
   const classes = useStyles()
