@@ -16,6 +16,7 @@ import NotFound from "Components/NotFound";
 function App() {
   return (
     <CssBaseline>
+      // THIS SHOULD BE A SEPARATE COMPONENT
       <UserContextProvider>
         <Router>
           <Switch>
@@ -33,6 +34,7 @@ function App() {
             <Route path={"/"} component={NotFound} />
           </Switch>
         </Router>
+        //  THIS SHOULD BE A SEPARATE COMPONENT
       </UserContextProvider>
     </CssBaseline>
   )
