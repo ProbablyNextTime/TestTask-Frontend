@@ -3,14 +3,17 @@ import { useHistory } from "react-router-dom"
 import { ISurvey } from "Interfaces/survey"
 
 import useStyles from "./styles"
-import { Box, Typography, Link, Button } from "@material-ui/core"
+import { Box, Typography, Link, Button, CircularProgress } from "@material-ui/core"
 import { getAvailableSurveysAPI } from "service/api/survey"
 import { UserContext } from "../../UserContext"
 
 const SurveysBoard = () => {
   const history = useHistory()
+  // Holds all available surveys
   const [surveys, setSurveys] = React.useState<ISurvey[]>([])
+  // Holds error message if it exists
   const [errorMessage, setErrorMessage] = React.useState<string>("")
+  const [loading, setLoading] = React.useState<boolean>(true)
 
   const userContext = React.useContext(UserContext)
 
@@ -26,13 +29,15 @@ const SurveysBoard = () => {
 
   React.useEffect(() => {
     getSurveys()
-  }, [getSurveys])
+      // set loading to false to display dashboard
+      .then( () => setLoading(false))
+  }, [getSurveys, setLoading])
 
   const classes = useStyles()
 
   return (
     <Box className={classes.wrapper}>
-      {surveys.length > 0 ? (
+      {surveys.length > 0 || userContext.user.role === "admin" ? (
         <Box className={classes.container}>
           <Typography variant={"h4"}>
             {userContext.user.role === "user" ? "Available surveys:" : "Admin dashboard"}
@@ -55,7 +60,7 @@ const SurveysBoard = () => {
               </>
             )
           })}
-          <Button
+          {userContext.user.role === "admin" && <Button
             variant={"outlined"}
             color={"primary"}
             className={classes.createSurveyButton}
@@ -63,12 +68,19 @@ const SurveysBoard = () => {
             onClick={() => history.push("/createSurvey")}
           >
             Create survey
-          </Button>
+          </Button>}
           {errorMessage && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
         </Box>
-      ) : (
-        <Typography variant={"h4"}>No surveys are available for you</Typography>
-      )}
+      ) : (loading) ? (
+        <CircularProgress/>
+      )
+        :(
+          <Typography
+            variant={"h4"}
+          >
+            No surveys are available for you
+          </Typography>
+        )}
     </Box>
   )
 }

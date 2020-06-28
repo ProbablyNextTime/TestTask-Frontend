@@ -25,11 +25,13 @@ const SignUpSchema = Yup.object().shape({
 
 const SignUp = () => {
   const history = useHistory()
+  // Holds error message if it exists
   const [errorMessage, setErrorMessage] = React.useState<string>("")
 
   const onSubmit = React.useCallback(
     async (values: ICredentials) => {
       try {
+        // API call to register new user
         await signUpUserAPI(values.username, values.password)
         // redirect on success signUp
         history.push("/login")
@@ -78,6 +80,7 @@ const SignUp = () => {
                     className: classes.inputField,
                   }}
                   variant={"outlined"}
+                  type={"password"}
                   name="password"
                   onFocus={() => setErrorMessage("")}
                   component={TextField}
@@ -91,6 +94,7 @@ const SignUp = () => {
                   }}
                   variant={"outlined"}
                   name="confirmPassword"
+                  type={"password"}
                   onFocus={() => setErrorMessage("")}
                   component={TextField}
                 />
