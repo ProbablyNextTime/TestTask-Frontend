@@ -7,8 +7,8 @@ import { IUser, ICredentials } from "Interfaces/user"
 import useStyles from "./styles"
 import { Box, Typography, Button } from "@material-ui/core"
 import { TextField } from "formik-material-ui"
-import { loginUserAPI } from "../../service/api/user"
-import { UserContext } from "../../UserContext"
+import { loginUserAPI } from "service/api/user"
+import { UserContext } from "UserContext"
 
 // Validation schema for login form
 const SignInSchema = Yup.object().shape({
@@ -23,6 +23,8 @@ const SignInSchema = Yup.object().shape({
 })
 
 const Login = () => {
+  const classes = useStyles()
+
   const history = useHistory()
   // Holds error message if it exists
   const [errorMessage, setErrorMessage] = React.useState("")
@@ -41,13 +43,12 @@ const Login = () => {
         // Redirect on success
         history.push(redirectURL)
       } catch (error) {
+        console.error(error)
         setErrorMessage(error.response.data.message)
       }
     },
     [history, userContext]
   )
-
-  const classes = useStyles()
 
   return (
     <Box className={classes.wrapper}>
@@ -101,7 +102,7 @@ const Login = () => {
                   Sign Up
                 </Button>
               </Box>
-              {errorMessage !== "" && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
+              {errorMessage && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
             </Form>
           )}
         </Formik>

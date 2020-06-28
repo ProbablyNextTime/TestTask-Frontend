@@ -5,15 +5,15 @@ import { ISurvey } from "Interfaces/survey"
 import useStyles from "./styles"
 import { Box, Typography, Link, Button, CircularProgress } from "@material-ui/core"
 import { getAvailableSurveysAPI } from "service/api/survey"
-import { UserContext } from "../../UserContext"
+import { UserContext } from "UserContext"
 
 const SurveysBoard = () => {
   const history = useHistory()
   // Holds all available surveys
   const [surveys, setSurveys] = React.useState<ISurvey[]>([])
   // Holds error message if it exists
-  const [errorMessage, setErrorMessage] = React.useState<string>("")
-  const [loading, setLoading] = React.useState<boolean>(true)
+  const [errorMessage, setErrorMessage] = React.useState("")
+  const [loading, setLoading] = React.useState(true)
 
   const userContext = React.useContext(UserContext)
 
@@ -28,9 +28,13 @@ const SurveysBoard = () => {
   }, [])
 
   React.useEffect(() => {
-    getSurveys()
+    const loadSurveys = async () => {
+      await getSurveys
       // set loading to false to display dashboard
-      .then( () => setLoading(false))
+      setLoading(false)
+    }
+
+    loadSurveys()
   }, [getSurveys, setLoading])
 
   const classes = useStyles()
@@ -60,27 +64,24 @@ const SurveysBoard = () => {
               </>
             )
           })}
-          {userContext.user.role === "admin" && <Button
-            variant={"outlined"}
-            color={"primary"}
-            className={classes.createSurveyButton}
-            type={"button"}
-            onClick={() => history.push("/createSurvey")}
-          >
-            Create survey
-          </Button>}
+          {userContext.user.role === "admin" && (
+            <Button
+              variant={"outlined"}
+              color={"primary"}
+              className={classes.createSurveyButton}
+              type={"button"}
+              onClick={() => history.push("/createSurvey")}
+            >
+              Create survey
+            </Button>
+          )}
           {errorMessage && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
         </Box>
-      ) : (loading) ? (
-        <CircularProgress/>
-      )
-        :(
-          <Typography
-            variant={"h4"}
-          >
-            No surveys are available for you
-          </Typography>
-        )}
+      ) : loading ? (
+        <CircularProgress />
+      ) : (
+        <Typography variant={"h4"}>No surveys are available for you</Typography>
+      )}
     </Box>
   )
 }

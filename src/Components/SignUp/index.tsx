@@ -6,7 +6,7 @@ import { ICredentials } from "Interfaces/user"
 import useStyles from "./styles"
 import { Box, Typography, Button } from "@material-ui/core"
 import { TextField } from "formik-material-ui"
-import { signUpUserAPI } from "../../service/api/user"
+import { signUpUserAPI } from "service/api/user"
 
 // Validation schema for signUp
 const SignUpSchema = Yup.object().shape({
@@ -26,7 +26,7 @@ const SignUpSchema = Yup.object().shape({
 const SignUp = () => {
   const history = useHistory()
   // Holds error message if it exists
-  const [errorMessage, setErrorMessage] = React.useState<string>("")
+  const [errorMessage, setErrorMessage] = React.useState("")
 
   const onSubmit = React.useCallback(
     async (values: ICredentials) => {
@@ -36,6 +36,7 @@ const SignUp = () => {
         // redirect on success signUp
         history.push("/login")
       } catch (error) {
+        console.error(error)
         setErrorMessage(error.response.data.message)
       }
     },
@@ -107,7 +108,7 @@ const SignUp = () => {
                   Login
                 </Button>
               </Box>
-              {errorMessage !== "" && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
+              {errorMessage && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
             </Form>
           )}
         </Formik>
