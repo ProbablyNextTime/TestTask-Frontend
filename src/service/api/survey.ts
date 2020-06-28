@@ -23,4 +23,4 @@ export const getAvailableSurveysAPI = async (): Promise<ISurvey[]> =>
     await axios.get("/surveys", {
       headers: authHeader(),
     })
-  ).data.surveys as unknown) as ISurvey[]
+  ).data.surveys as unknown) as ISurvey[] // Did you properly check that it doesn't work without "as unknown"?
