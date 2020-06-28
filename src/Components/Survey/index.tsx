@@ -46,7 +46,7 @@ const Survey = ({ surveyId }: ISurveyProps) => {
 
     if (survey) {
       // If everything is valid set next set of questions
-      setCurrentQuestions(survey.questions.slice(currentPage * 3, (currentPage + 1) * 3))
+      setCurrentQuestions(survey.questions.slice(currentPage * 3, (currentPage + 1) * 3)) // These are magic numbers to me. The comment above fails to explain what's questions.slice(currentPage * 3, (currentPage + 1) * 3)
     }
 
     // increment current page
@@ -57,7 +57,7 @@ const Survey = ({ surveyId }: ISurveyProps) => {
   const handlePrev = () => {
     if (survey) {
       // set previous set of questions
-      setCurrentQuestions(survey.questions.slice((currentPage - 2) * 3, (currentPage - 1) * 3))
+      setCurrentQuestions(survey.questions.slice((currentPage - 2) * 3, (currentPage - 1) * 3)) // Magic numbers
     }
 
     // decrement current page
@@ -87,6 +87,7 @@ const Survey = ({ surveyId }: ISurveyProps) => {
         // set start questions
         setCurrentQuestions(survey.questions.slice(0, 3))
       } catch (error) {
+        // console.error. If you don't do that you'll never know what's the real error
         setErrorMessage(error.response.data.message)
       }
     },
@@ -159,10 +160,10 @@ const Survey = ({ surveyId }: ISurveyProps) => {
                   </Button>
                 )}
               </Box>
-              {errorMessage !== "" && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
+              {errorMessage && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
               <LinearProgress
                 variant={"determinate"}
-                value={survey ? (((currentPage - 1) * 3) / survey?.questions.length) * 100 : 0}
+                value={survey ? (((currentPage - 1) * 3) / survey?.questions.length) * 100 : 0} // Magic numbers. Maybe create some constants to make it more coherent
                 className={classes.progress}
               />
             </Form>
