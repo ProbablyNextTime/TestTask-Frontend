@@ -7,7 +7,7 @@ import { IUser, ICredentials } from "Interfaces/user"
 import useStyles from "./styles"
 import { Box, Typography, Button } from "@material-ui/core"
 import { TextField } from "formik-material-ui"
-import { loginUserAPI } from "../../service/api/user"
+import { loginUserAPI } from "../../service/api/user" // absolute imports
 import { UserContext } from "../../UserContext"
 
 // Validation schema for login form
@@ -41,6 +41,7 @@ const Login = () => {
         // Redirect on success
         history.push(redirectURL)
       } catch (error) {
+        //console.error(error)
         setErrorMessage(error.response.data.message)
       }
     },
@@ -101,7 +102,7 @@ const Login = () => {
                   Sign Up
                 </Button>
               </Box>
-              {errorMessage !== "" && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
+              {errorMessage && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
             </Form>
           )}
         </Formik>
