@@ -10,6 +10,8 @@ interface ISurveyProps {
   surveyId: string
 }
 
+const questionsOnPage = 3
+
 const Survey = ({ surveyId }: ISurveyProps) => {
   const history = useHistory()
   // State for current survey
@@ -39,14 +41,14 @@ const Survey = ({ surveyId }: ISurveyProps) => {
   // Display next questions handler
   const handleNext = (values: object) => {
     // Check if all the questions that are displayed have an answer
-    if (!isQuestionsSetValid((currentPage - 1) * 3, currentPage * 3, values)) {
+    if (!isQuestionsSetValid((currentPage - 1) * questionsOnPage, currentPage * questionsOnPage, values)) {
       setErrorMessage("Fill all the fields")
       return
     }
 
     if (survey) {
-      // If everything is valid set next set of questions
-      setCurrentQuestions(survey.questions.slice(currentPage * 3, (currentPage + 1) * 3))
+      // Set the next set of questions from survey entity
+      setCurrentQuestions(survey.questions.slice(currentPage * questionsOnPage, (currentPage + 1) * questionsOnPage))
     }
 
     // increment current page
@@ -56,8 +58,10 @@ const Survey = ({ surveyId }: ISurveyProps) => {
   // Display previous questions handler
   const handlePrev = () => {
     if (survey) {
-      // set previous set of questions
-      setCurrentQuestions(survey.questions.slice((currentPage - 2) * 3, (currentPage - 1) * 3))
+      // Set the previous set of questions from survey entity
+      setCurrentQuestions(
+        survey.questions.slice((currentPage - 2) * questionsOnPage, (currentPage - 1) * questionsOnPage)
+      )
     }
 
     // decrement current page
@@ -85,8 +89,9 @@ const Survey = ({ surveyId }: ISurveyProps) => {
         const survey: ISurvey = await getSurveyAPI(surveyId)
         setSurvey(survey)
         // set start questions
-        setCurrentQuestions(survey.questions.slice(0, 3))
+        setCurrentQuestions(survey.questions.slice(0, questionsOnPage))
       } catch (error) {
+        console.error(error)
         setErrorMessage(error.response.data.message)
       }
     },
@@ -108,6 +113,7 @@ const Survey = ({ surveyId }: ISurveyProps) => {
         // Redirect on success
         history.push("/thankYou")
       } catch (error) {
+        console.error(error)
         setErrorMessage(error.response.data.message)
       }
     },
@@ -147,13 +153,13 @@ const Survey = ({ surveyId }: ISurveyProps) => {
                 >
                   Back
                 </Button>
-                {survey && Math.ceil(survey.questions.length / 3) === currentPage && (
+                {survey && Math.ceil(survey.questions.length / questionsOnPage) === currentPage && (
                   <Button color={"primary"} variant={"outlined"} type={"submit"}>
                     Submit
                   </Button>
                 )}
 
-                {survey && Math.ceil(survey.questions.length / 3) !== currentPage && (
+                {survey && Math.ceil(survey.questions.length / questionsOnPage) !== currentPage && (
                   <Button color={"primary"} variant={"outlined"} type={"button"} onClick={() => handleNext(values)}>
                     Next
                   </Button>
@@ -162,7 +168,8 @@ const Survey = ({ surveyId }: ISurveyProps) => {
               {errorMessage !== "" && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
               <LinearProgress
                 variant={"determinate"}
-                value={survey ? (((currentPage - 1) * 3) / survey?.questions.length) * 100 : 0}
+                // get the percent of completed questions ( (completedQuestions / allQuestions) * 100%  )
+                value={survey ? (((currentPage - 1) * questionsOnPage) / survey?.questions.length) * 100 : 0}
                 className={classes.progress}
               />
             </Form>
