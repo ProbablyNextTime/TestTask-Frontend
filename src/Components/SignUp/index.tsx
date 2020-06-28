@@ -40,12 +40,7 @@ const SignUp = () => {
       history.push("/login");
 
     } catch (error) {
-      // Handling errors based on error message got from response
-      if(error.response.data.message === "such user exists") {
-        setErrorMessage("Such user exists");
-      } else {
-        setErrorMessage("Unknown error");
-      }
+        setErrorMessage(error.response.data.message)
     }
   }, [history]);
 

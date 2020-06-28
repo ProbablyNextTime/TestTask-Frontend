@@ -41,14 +41,7 @@ const Login = () => {
       history.push(redirectURL);
 
     } catch (error) {
-      // Handling errors based on error message got from response
-      if(error.response.data.message === "Incorrect data"){
-        setErrorMessage("Incorrect login or password")
-      } else if (error.response.data.message === "Jwt setting failed" ){
-        setErrorMessage("Auth error");
-      } else {
-        setErrorMessage("Unknown error");
-      }
+      setErrorMessage(error.response.data.message);
     }
   }, [history]);
 
