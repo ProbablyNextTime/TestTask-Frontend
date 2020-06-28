@@ -69,7 +69,7 @@ const useStyles = makeStyles(() => ({
     justifySelf: "flex-end",
     margin: "10px 0 0 0",
     color: "red",
-  }
-}));
+  },
+}))
 
 export default useStyles

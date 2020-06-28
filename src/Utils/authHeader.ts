@@ -1,9 +1,9 @@
 // get accessToken from local storage and wrap it as request header for auth
 export default function authHeader() {
-  const auth: string = localStorage.getItem("accessToken") || "";
+  const auth: string = localStorage.getItem("accessToken") || ""
 
-  if(auth) {
-    return { "Authorization": `bearer ${auth}`}
+  if (auth) {
+    return { Authorization: `bearer ${auth}` }
   } else {
     return {}
   }

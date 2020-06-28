@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
     height: "100px",
     width: "500px",
     maxWidth: "700px",
-    maxHeight: "150px"
+    maxHeight: "150px",
   },
   container: {
     display: "flex",
@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
     minWidth: "300px",
     display: "flex",
     justifyContent: "space-between",
-    padding: "5px"
+    padding: "5px",
   },
   surveyQuestion: {
     margin: "0 0 8px 0",
@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
   errorMessage: {
     margin: "2px 0 0 0",
     color: "red",
-  }
-}));
+  },
+}))
 
 export default useStyles
