@@ -18,6 +18,7 @@ function App() {
     <CssBaseline>
       // THIS SHOULD BE A SEPARATE COMPONENT
       <UserContextProvider>
+        // ROUTES SHOULD BE A SEPARATE COMPONENT
         <Router>
           <Switch>
             <Route exact path="/login" component={Login} />

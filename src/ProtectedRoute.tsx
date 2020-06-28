@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 
 // THIS SHOULD BE IN THE SAME FOLDER AS THE ROUTES COMPONENT,NOT IN ./src
 
+
 // A wrapper around react-router-dom Route for easier handling of private routes
 // via isPrivate boolean flag
 interface IRouteWrapperProps<T> extends RouteProps {
