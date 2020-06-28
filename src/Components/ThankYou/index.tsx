@@ -1,16 +1,15 @@
-import React from "react";
+import React from "react"
 import { useHistory } from "react-router-dom"
 
-import useStyles from "./styles";
-import {Box, Typography, Button} from "@material-ui/core";
-
+import useStyles from "./styles"
+import { Box, Typography, Button } from "@material-ui/core"
 
 const ThankYou = () => {
-  const history = useHistory();
+  const history = useHistory()
 
-  const classes = useStyles();
+  const classes = useStyles()
 
-  return(
+  return (
     <Box className={classes.wrapper}>
       <Typography variant={"h4"}>Thank you for your time</Typography>
       <Button
@@ -18,7 +17,9 @@ const ThankYou = () => {
         variant={"outlined"}
         color={"primary"}
         onClick={() => history.push("/surveys")}
-      >Back</Button>
+      >
+        Back
+      </Button>
     </Box>
   )
 }

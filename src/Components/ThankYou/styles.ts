@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
   },
   backButton: {
     margin: "20px 0 0 0",
-  }
-}));
+  },
+}))
 
 export default useStyles
