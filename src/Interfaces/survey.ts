@@ -1,5 +1,5 @@
 export interface ISurvey {
   _id: string;
-  tittle: string;
+  title: string;
   questions: string[];
 }

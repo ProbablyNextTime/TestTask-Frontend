@@ -42,7 +42,7 @@ const SurveysBoard = () => {
               component={"button"}
               onClick={() => history.push(`/survey/${survey._id}`)}
             >
-              {`${key + 1}) ${survey.tittle}`}
+              {`${key + 1}) ${survey.title}`}
             </Link>
           })}
           {errorMessage && <Typography className={classes.errorMessage}>{errorMessage}</Typography>}
