@@ -12,8 +12,8 @@ const SurveysBoard = () => {
   // Holds all available surveys
   const [surveys, setSurveys] = React.useState<ISurvey[]>([])
   // Holds error message if it exists
-  const [errorMessage, setErrorMessage] = React.useState<string>("")
-  const [loading, setLoading] = React.useState<boolean>(true)
+  const [errorMessage, setErrorMessage] = React.useState("")
+  const [loading, setLoading] = React.useState(true)
 
   const userContext = React.useContext(UserContext)
 
@@ -23,6 +23,7 @@ const SurveysBoard = () => {
       const surveys: ISurvey[] = await getAvailableSurveysAPI()
       setSurveys(surveys)
     } catch (error) {
+      // console.error
       setErrorMessage(error.response.body.message)
     }
   }, [])
@@ -30,12 +31,13 @@ const SurveysBoard = () => {
   React.useEffect(() => {
     getSurveys()
       // set loading to false to display dashboard
-      .then( () => setLoading(false))
+      .then( () => setLoading(false)) // WHY IN THE WORLD ARE YOU USING PROMISE API? We can use async functions within useEffect, you've already done it
   }, [getSurveys, setLoading])
 
   const classes = useStyles()
 
   return (
+    // IN MY OPINION THIS SHOULD BE 2 SEPARATE components. If you wanna extend this in the future you'll have big problems
     <Box className={classes.wrapper}>
       {surveys.length > 0 || userContext.user.role === "admin" ? (
         <Box className={classes.container}>
