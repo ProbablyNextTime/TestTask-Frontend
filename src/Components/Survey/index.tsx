@@ -18,15 +18,17 @@ const Survey = ({ surveyId }: ISurveyProps) => {
   const [currentQuestions, setCurrentQuestions] = React.useState<string[]>([])
   // Holds current page
   const [currentPage, setCurrentPage] = React.useState<number>(1)
-  // Holds possible error/warning message
+  // Holds error message if it exists
   const [errorMessage, setErrorMessage] = React.useState<string>("")
 
   // Validation before going to the next step checks if all the fields
   // that are displayed are not empty
   const isQuestionsSetValid = (from: number, to: number, values: object): boolean => {
     if (survey) {
+      // values is object that has property 'values' with object (which values is our answers)
+      const answers: string[] = Object.values(Object.values(values)[0])
       for (let i = from; i < to; i++) {
-        if (!Object.values(Object.values(values)[0])[i]) {
+        if (!answers[i]) {
           return false
         }
       }
@@ -36,26 +38,33 @@ const Survey = ({ surveyId }: ISurveyProps) => {
 
   // Display next questions handler
   const handleNext = (values: object) => {
+    // Check if all the questions that are displayed have an answer
     if (!isQuestionsSetValid((currentPage - 1) * 3, currentPage * 3, values)) {
       setErrorMessage("Fill all the fields")
       return
     }
+
     if (survey) {
+      // If everything is valid set next set of questions
       setCurrentQuestions(survey.questions.slice(currentPage * 3, (currentPage + 1) * 3))
     }
 
+    // increment current page
     setCurrentPage((curPage) => curPage + 1)
   }
 
   // Display previous questions handler
   const handlePrev = () => {
     if (survey) {
+      // set previous set of questions
       setCurrentQuestions(survey.questions.slice((currentPage - 2) * 3, (currentPage - 1) * 3))
     }
 
+    // decrement current page
     setCurrentPage((curPage) => curPage - 1)
   }
-  // Return object with survey's questions as keys and
+
+  // Returns object with survey's questions as keys and
   // empty strings as values for Formik initialValues prop
   const getInitialValues = (): object => {
     let initValues: object = {}
@@ -72,8 +81,10 @@ const Survey = ({ surveyId }: ISurveyProps) => {
   const getSurvey = React.useCallback(
     async (surveyId: string) => {
       try {
+        // API call to get survey
         const survey: ISurvey = await getSurveyAPI(surveyId)
         setSurvey(survey)
+        // set start questions
         setCurrentQuestions(survey.questions.slice(0, 3))
       } catch (error) {
         setErrorMessage(error.response.data.message)
@@ -92,7 +103,9 @@ const Survey = ({ surveyId }: ISurveyProps) => {
       try {
         // Converts values`s  question -- answer pairs to array of answers
         const answers: string[] = Object.values(values)
+        // API call ot post survey answers
         await postSurveyAnswerAPI(answers, surveyId)
+        // Redirect on success
         history.push("/thankYou")
       } catch (error) {
         setErrorMessage(error.response.data.message)
@@ -102,7 +115,7 @@ const Survey = ({ surveyId }: ISurveyProps) => {
   )
 
   const classes = useStyles()
-  console.log(survey ? (currentPage - 2) * 3 + currentQuestions.length : 0)
+
   return (
     <Box className={classes.wrapper}>
       {survey && (
