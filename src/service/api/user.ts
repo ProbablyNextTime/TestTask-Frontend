@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios"
 import { IUser } from "Interfaces/user"
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL || ''
 
 export const loginUserAPI = async (username: string, password: string): Promise<IUser> => {
   const response: AxiosResponse = await axios.post("/login", {
