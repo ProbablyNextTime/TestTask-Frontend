@@ -11,7 +11,6 @@ export interface IUserState {
 }
 
 const initialUser: Partial<IUser> = {
-  _id: localStorage.getItem("userId") || "none",
   username: localStorage.getItem("username") || "guest@guest.guest",
   role: localStorage.getItem("role") || "user",
 }

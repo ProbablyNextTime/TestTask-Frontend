@@ -14,10 +14,9 @@ const isLoggedIn = (): boolean => {
 }
 
 export default function RouteWrapper<T>({ component, isPrivate, ...rest }: IRouteWrapperProps<T>) {
-  /* A wrapper component around the react-router-dom Route that controls access to resources.
-   *
-   * isPrivate flag should be used to make the Route available onlu to logged in users
-   */
+  // A wrapper component around the react-router-dom Route that controls access to resources
+  // isPrivate flag should be used to make the Route available only to logged in users
+  // if user isn`t logged in redirect to /login
   if (isPrivate && !isLoggedIn()) {
     return <Redirect to="/login" />
   }

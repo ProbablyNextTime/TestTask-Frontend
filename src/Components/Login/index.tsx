@@ -24,16 +24,21 @@ const SignInSchema = Yup.object().shape({
 
 const Login = () => {
   const history = useHistory()
+  // Holds error message if it exists
   const [errorMessage, setErrorMessage] = React.useState("")
   const userContext = React.useContext(UserContext)
 
   const onSubmit = React.useCallback(
     async (values: ICredentials) => {
       try {
+        // API call to login user
         const user: IUser = await loginUserAPI(values.username, values.password)
         // Getting user role and redirecting to content pages based on role
         const redirectURL: string = user.role === "admin" ? "/createSurvey" : "/surveys"
+
+        // Set user context
         userContext.handleSettingUser({ user: { username: user.username, role: user.role } })
+        // Redirect on success
         history.push(redirectURL)
       } catch (error) {
         setErrorMessage(error.response.data.message)
@@ -77,6 +82,7 @@ const Login = () => {
                 <Typography className={classes.inputLabel}>Password :</Typography>
                 <Field
                   name="password"
+                  type={"password"}
                   variant={"outlined"}
                   component={TextField}
                   InputProps={{
