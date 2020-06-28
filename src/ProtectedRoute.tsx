@@ -2,6 +2,8 @@ import * as React from "react"
 import { Route, Redirect, RouteProps } from "react-router-dom"
 import PropTypes from "prop-types"
 
+// THIS SHOULD BE IN THE SAME FOLDER AS THE RAOUTES COMPONENT NOT in ./src
+
 // A wrapper around react-router-dom Route for easier handling of private routes
 // via isPrivate boolean flag
 interface IRouteWrapperProps<T> extends RouteProps {
