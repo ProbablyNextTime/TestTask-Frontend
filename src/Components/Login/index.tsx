@@ -35,13 +35,10 @@ const Login = () => {
       try {
         // API call to login user
         const user: IUser = await loginUserAPI(values.username, values.password)
-        // Getting user role and redirecting to content pages based on role
-        const redirectURL: string = user.role === "admin" ? "/createSurvey" : "/surveys"
-
         // Set user context
         userContext.handleSettingUser({ user: { username: user.username, role: user.role } })
         // Redirect on success
-        history.push(redirectURL)
+        history.push("/surveys")
       } catch (error) {
         console.error(error)
         setErrorMessage(error.response.data.message)

@@ -3,14 +3,14 @@ import axios from "axios"
 import authHeader from "Utils/authHeader"
 
 export const getSurveyAPI = async (surveyId: string): Promise<ISurvey> =>
-  ((await axios.get(`/survey/?Id=${surveyId}`, { headers: authHeader() })).data.survey as unknown) as ISurvey
+  ((await axios.get(`/surveys/?Id=${surveyId}`, { headers: authHeader() })).data.survey as unknown) as ISurvey
 
 export const postSurveyAPI = async (questions: string[], title: string): Promise<void> =>
-  await axios.post("/createSurvey", { questions: questions, title: title }, { headers: authHeader() })
+  await axios.post("/surveys", { questions: questions, title: title }, { headers: authHeader() })
 
 export const postSurveyAnswerAPI = async (answers: string[], surveyId: string): Promise<void> =>
   await axios.post(
-    "/postSurvey",
+    "/surveys/postAnswer/",
     {
       answers: answers,
       surveyId: surveyId,

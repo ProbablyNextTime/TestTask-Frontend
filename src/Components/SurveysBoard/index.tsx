@@ -23,13 +23,14 @@ const SurveysBoard = () => {
       const surveys: ISurvey[] = await getAvailableSurveysAPI()
       setSurveys(surveys)
     } catch (error) {
+      console.error(error);
       setErrorMessage(error.response.body.message)
     }
   }, [])
 
   React.useEffect(() => {
     const loadSurveys = async () => {
-      await getSurveys
+      await getSurveys()
       // set loading to false to display dashboard
       setLoading(false)
     }
