@@ -17,6 +17,7 @@ function App() {
   return (
     <CssBaseline>
       <UserContextProvider>
+        // ROUTES SHOULD BE A SEPARATE COMPONENT
         <Router>
           <Switch>
             <Route exact path="/login" component={Login} />
@@ -33,6 +34,7 @@ function App() {
             <Route path={"/"} component={NotFound} />
           </Switch>
         </Router>
+        // ROUTES SHOULD BE A SEPARATE COMPONENT
       </UserContextProvider>
     </CssBaseline>
   )
