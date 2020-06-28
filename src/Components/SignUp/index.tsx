@@ -1,5 +1,4 @@
 import React from "react"
-import axios from "axios"
 import { Formik, Form, Field } from "formik"
 import { useHistory } from "react-router-dom"
 import * as Yup from "yup"
@@ -7,6 +6,7 @@ import { ICredentials } from "Interfaces/user"
 import useStyles from "./styles"
 import { Box, Typography, Button } from "@material-ui/core"
 import { TextField } from "formik-material-ui"
+import { signUpUserAPI } from "../../service/api/user"
 
 // Validation schema for signUp
 const SignUpSchema = Yup.object().shape({
@@ -30,12 +30,7 @@ const SignUp = () => {
   const onSubmit = React.useCallback(
     async (values: ICredentials) => {
       try {
-        await axios.post("/signUp", {
-          user: {
-            username: values.username,
-            password: values.password,
-          },
-        })
+        await signUpUserAPI(values.username, values.password)
         // redirect on success signUp
         history.push("/login")
       } catch (error) {
