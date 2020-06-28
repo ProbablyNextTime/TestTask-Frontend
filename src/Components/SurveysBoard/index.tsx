@@ -1,11 +1,10 @@
 import React from "react"
-import axios, { AxiosResponse } from "axios"
 import { useHistory } from "react-router-dom"
-import authHeader from "Utils/authHeader"
 import { ISurvey } from "Interfaces/survey"
 
 import useStyles from "./styles"
 import { Box, Typography, Link } from "@material-ui/core"
+import { getAvailableSurveysAPI } from "../../service/api/survey"
 
 
 const SurveysBoard = () => {
@@ -17,10 +16,8 @@ const SurveysBoard = () => {
   // Gets all user`s uncompleted surveys from server
   const getSurveys = React.useCallback(async () => {
     try {
-      const response: AxiosResponse = await axios.get("/surveys", {
-        headers: authHeader(),
-      })
-      setSurveys(response.data.surveys)
+      const surveys: ISurvey[] = await getAvailableSurveysAPI()
+      setSurveys(surveys)
     } catch (error) {
       setErrorMessage(error.response.body.message)
     }

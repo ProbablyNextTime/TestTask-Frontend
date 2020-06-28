@@ -1,11 +1,10 @@
 import React from "react"
-import axios, { AxiosResponse } from "axios"
 import { useHistory } from "react-router-dom"
-import authHeader from "Utils/authHeader"
 import { ISurvey } from "Interfaces/survey"
 import { Field, Form, Formik } from "formik"
 import useStyles from "./styles"
 import { Box, Typography, Button, LinearProgress } from "@material-ui/core"
+import { getSurveyAPI, postSurveyAnswerAPI } from "service/api/survey"
 
 interface ISurveyProps {
   surveyId: string
@@ -56,7 +55,6 @@ const Survey = ({ surveyId }: ISurveyProps) => {
 
     setCurrentPage((curPage) => curPage - 1)
   }
-
   // Return object with survey's questions as keys and
   // empty strings as values for Formik initialValues prop
   const getInitialValues = (): object => {
@@ -74,9 +72,9 @@ const Survey = ({ surveyId }: ISurveyProps) => {
   const getSurvey = React.useCallback(
     async (surveyId: string) => {
       try {
-        const response: AxiosResponse = await axios.get(`/survey/?Id=${surveyId}`, { headers: authHeader() })
-        setSurvey(response.data.survey)
-        setCurrentQuestions(response.data.survey.questions.slice(0, 3))
+        const survey: ISurvey = await getSurveyAPI(surveyId)
+        setSurvey(survey)
+        setCurrentQuestions(survey.questions.slice(0, 3))
       } catch (error) {
         setErrorMessage(error.response.data.message)
       }
@@ -94,7 +92,7 @@ const Survey = ({ surveyId }: ISurveyProps) => {
       try {
         // Converts values`s  question -- answer pairs to array of answers
         const answers: string[] = Object.values(values)
-        await axios.post("/postSurvey", { answers: answers, surveyId: surveyId }, { headers: authHeader() })
+        await postSurveyAnswerAPI(answers, surveyId)
         history.push("/thankYou")
       } catch (error) {
         setErrorMessage(error.response.data.message)
