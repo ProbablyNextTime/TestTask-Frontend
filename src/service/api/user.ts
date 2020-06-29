@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios"
+import axios  from "axios"
 import { IUser } from "Interfaces/user"
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL || ''
 
