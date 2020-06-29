@@ -11,6 +11,11 @@ Fast.Simple.Practical
 ## Admin demo
 [https://www.loom.com/share/4f347a7aec434238bfd9605edd13da73](https://www.loom.com/share/4f347a7aec434238bfd9605edd13da73)
 
+## Deployed prodject
+
+[https://testtaskjetbridge.herokuapp.com/surveys](https://testtaskjetbridge.herokuapp.com/surveys)
+
+
 ## Available Scripts
 
 In the project directory, you can run:
