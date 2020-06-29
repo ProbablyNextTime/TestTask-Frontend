@@ -13,6 +13,7 @@ function Routes() {
   return (
     <Router>
       <Switch>
+        <Route exact path={"/"} component={SurveysBoard}/>
         <Route exact path="/login" component={Login} />
         <Route exact path="/signUp" component={SignUp} />
         <ProtectedRoute isPrivate exact path="/createSurvey" component={CreateSurvey} />
