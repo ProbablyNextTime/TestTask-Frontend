@@ -9,9 +9,8 @@ export const loginUserAPI = async (username: string, password: string): Promise<
       password: password,
     },
   })
-  console.log(response.data);
   localStorage.setItem("accessToken", response.data.accessToken)
-  return response.data.user as unknown as IUser
+  return response.data.user
 }
 
 export const signUpUserAPI = async (username: string, password: string): Promise<void> =>
