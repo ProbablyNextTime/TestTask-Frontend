@@ -1,4 +1,15 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Survey delivery app
+
+After signIn/signUp just choose the survey you want to pass.<br />
+You will be redirected to the page with survey questions.<br />
+
+Fast.Simple.Practical
+
+## User demo
+[https://www.loom.com/share/9ae371974c6c48ce9972fceb7e13048f](https://www.loom.com/share/9ae371974c6c48ce9972fceb7e13048f)
+
+## Admin demo
+[https://www.loom.com/share/4f347a7aec434238bfd9605edd13da73](https://www.loom.com/share/4f347a7aec434238bfd9605edd13da73)
 
 ## Available Scripts
 
@@ -37,8 +48,4 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
