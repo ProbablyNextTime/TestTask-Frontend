@@ -74,7 +74,7 @@ const Survey = ({ surveyId }: ISurveyProps) => {
     let initValues: object = {}
     if (survey) {
       for (let i = 0; i < survey.questions.length; i++) {
-        const question: object = { [survey.questions[i]]: "" }
+        const question: object = { [`${survey.questions[i]}${i}`]: "" }
         initValues = { ...initValues, ...question }
       }
     }
@@ -136,7 +136,7 @@ const Survey = ({ surveyId }: ISurveyProps) => {
                       className={classes.answerField}
                       variant={"outlined"}
                       onFocus={() => setErrorMessage("")}
-                      name={question}
+                      name={`${question}${(currentPage - 1) * questionsOnPage + index}`}
                       component={"textarea"}
                     />
                   </Box>

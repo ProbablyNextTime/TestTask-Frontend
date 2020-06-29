@@ -5,8 +5,8 @@ import { Box, Typography, Button } from "@material-ui/core"
 import { FieldArray, Form, Field, Formik } from "formik"
 import { TextField } from "formik-material-ui"
 import * as Yup from "yup"
-import { postSurveyAPI } from "../../service/api/survey"
-import { UserContext } from "../../UserContext"
+import { postSurveyAPI } from "service/api/survey"
+import { UserContext } from "UserContext"
 
 // Survey validation schema
 const surveySchema = Yup.object().shape({
