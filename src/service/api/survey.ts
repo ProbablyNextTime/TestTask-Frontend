@@ -2,6 +2,7 @@ import { ISurvey } from "Interfaces/survey"
 import axios from "axios"
 import authHeader from "Utils/authHeader"
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL || ''
+axios.defaults.withCredentials = true;
 
 export const getSurveyAPI = async (surveyId: string): Promise<ISurvey> =>
   ((await axios.get(`/surveys/?Id=${surveyId}`, { headers: authHeader() })).data.survey as unknown) as ISurvey
