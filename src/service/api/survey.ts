@@ -21,7 +21,7 @@ export const getSurveyAPI = async (surveyId: string): Promise<ISurvey> => {
 export const postSurveyAPI = async (questions: string[], title: string): Promise<void> => {
   const auth: string = localStorage.getItem("accessToken") || "";
   setAuthToken(auth)
-  await axios.post("/surveys", {questions: questions, title: title}, {headers: authHeader()})
+  await axios.post("/surveys", {questions: questions, title: title})
 }
 
 export const postSurveyAnswerAPI = async (answers: string[], surveyId: string): Promise<void> => {
@@ -32,8 +32,7 @@ export const postSurveyAnswerAPI = async (answers: string[], surveyId: string): 
     {
       answers: answers,
       surveyId: surveyId,
-    },
-    {headers: authHeader()}
+    }
   )
 }
 
@@ -41,8 +40,6 @@ export const getAvailableSurveysAPI = async (): Promise<ISurvey[]> => {
   const auth: string = localStorage.getItem("accessToken") || "";
   setAuthToken(auth)
   return ((
-    await axios.get("/surveys", {
-      headers: authHeader(),
-    })
+    await axios.get("/surveys")
   ).data.surveys as unknown) as ISurvey[]
 }
